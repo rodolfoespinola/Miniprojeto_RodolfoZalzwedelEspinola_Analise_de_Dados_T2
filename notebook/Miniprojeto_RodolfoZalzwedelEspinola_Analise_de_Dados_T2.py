@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 # 2. Abrindo csv com pandas
-df = pd.read_csv('../data/Base_Varejo.csv', sep=';')
+df = pd.read_csv('data/Base_Varejo.csv', sep=';')
 
 # 3. Entendendo a base de dados
 print("📋 Primeiras linhas do dataset:")
@@ -13,39 +13,11 @@ print()
 print("📋 Tipo de dado de cada coluna:")
 print(df.dtypes)
 
-
-# 4. Fazendo o diagnóstico do DF
-def diagnostico(df, nome="DataFrame"):
-    """
-    Mostra um relatório completo de qualidade dos dados.
-    Use sempre antes de começar a limpeza!
-    """
-    print("=" * 55)
-    print(f"  📊 DIAGNÓSTICO: {nome}")
-    print("=" * 55)
-    print(f"  Linhas:           {df.shape[0]:,}")
-    print(f"  Colunas:          {df.shape[1]}")
-    print(f"  Linhas duplicadas:{df.duplicated().sum():,}")
-    print()
-    
-    nulos = df.isnull().sum()
-    pct   = (nulos / len(df) * 100).round(1)
-    
-    print("  Coluna           | Tipo       | Nulos | % Nulos")
-    print("  " + "-"*50)
-    for col in df.columns:
-        tipo = str(df[col].dtype)
-        print(f"  {col:<18}| {tipo:<10} | {nulos[col]:<5} | {pct[col]}%")
-    print("=" * 55)
-
-# Rodando o diagnóstico no nosso dataset
-diagnostico(df, "Base Varejo")
-
 def relatorio_qualidade(df):
     """Gera um relatório completo de qualidade do DataFrame."""
     
     print("=" * 60)
-    print("       📊 RELATÓRIO DE QUALIDADE DOS DADOS")
+    print("       📊 RELATÓRIO DE QUALIDADE DOS DADOS - Base Varejo")
     print("=" * 60)
     print(f"\n🔢 Total de linhas:   {df.shape[0]:,}")
     print(f"📋 Total de colunas: {df.shape[1]:,}")
@@ -63,5 +35,23 @@ def relatorio_qualidade(df):
     })
     print(relatorio)
     print("=" * 60)
+    print()
 
 relatorio_qualidade(df)
+
+# Quatro colunas vazias
+# 96.553 linhas duplicadas
+
+# 4. Iniciando as limpezas
+# Copia do df origianl
+df_limpo = df.copy()
+
+# Removendo duplicatas, mantendo o primeiro, e reindexando os índices
+print("=" * 60)
+print("📋 INICIANDO REMOÇÃO DE DUPLICATAS")
+print("=" * 60)
+print(f"ANTES: {len(df_limpo)} linhas")
+df_limpo = df_limpo.drop_duplicates(keep='first')
+df_limpo = df_limpo.reset_index(drop=True)
+print(f"DEPOIS: {len(df_limpo)} linhas")
+print()
