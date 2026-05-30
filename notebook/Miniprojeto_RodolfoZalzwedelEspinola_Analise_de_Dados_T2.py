@@ -5,6 +5,10 @@ import numpy as np
 # 2. Abrindo csv com pandas
 df = pd.read_csv('data/Base_Varejo.csv', sep=';')
 
+# Configurações para deixar a exibição mais legível
+pd.set_option('display.max_columns', None)   # Mostrar todas as colunas 
+pd.set_option('display.float_format', '{:.2f}'.format)  # 2 casas decimais
+
 # 3. Entendendo a base de dados
 print("📋 Primeiras linhas do dataset:")
 print(df.head(10))
@@ -55,3 +59,16 @@ df_limpo = df_limpo.drop_duplicates(keep='first')
 df_limpo = df_limpo.reset_index(drop=True)
 print(f"DEPOIS: {len(df_limpo)} linhas")
 print()
+
+# Removendo colunas vazias
+df_limpo = df_limpo.drop(columns=["Unnamed: 10", "Unnamed: 11", "Unnamed: 12", "Unnamed: 13"])
+
+# Convertendo data
+print("=" * 60)
+print("📋 INICIANDO CONVERSÃO DE DATA")
+print("=" * 60)
+df_limpo["DATA"] = pd.to_datetime(df_limpo["DATA"], dayfirst=True, errors="coerce")
+# Cehcando datas inválidas
+datas_invalidas = df_limpo["DATA"].isnull().sum()
+print(f"Datas inválidas encontradas: {datas_invalidas}")
+
