@@ -43,8 +43,8 @@ def relatorio_qualidade(df):
 
 relatorio_qualidade(df)
 
-# Quatro colunas vazias
-# 96.553 linhas duplicadas
+# Quatro colunas com 100% do conteúdo nulo
+# 96.553 registros duplicados completos
 
 # 4. Iniciando as limpezas
 # Copia do df origianl
@@ -70,5 +70,14 @@ print("=" * 60)
 df_limpo["DATA"] = pd.to_datetime(df_limpo["DATA"], dayfirst=True, errors="coerce")
 # Cehcando datas inválidas
 datas_invalidas = df_limpo["DATA"].isnull().sum()
+print(f"Formato data alterado para: {df_limpo['DATA'].dtypes}")
 print(f"Datas inválidas encontradas: {datas_invalidas}")
+print()
+
+# Padronização das colunas de texto para garantir consistência
+df_limpo["PR_CAT"] = df_limpo["PR_CAT"].str.strip().str.upper()
+df_limpo["PR_NOME"] = df_limpo["PR_NOME"].str.strip().str.upper()
+
+# 5. Estatísticas para a coluna filho
+
 
