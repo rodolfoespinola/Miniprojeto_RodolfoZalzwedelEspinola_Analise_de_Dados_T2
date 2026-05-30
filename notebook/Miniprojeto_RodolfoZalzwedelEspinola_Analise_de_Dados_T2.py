@@ -79,5 +79,16 @@ df_limpo["PR_CAT"] = df_limpo["PR_CAT"].str.strip().str.upper()
 df_limpo["PR_NOME"] = df_limpo["PR_NOME"].str.strip().str.upper()
 
 # 5. Estatísticas para a coluna filho
-
+filhos = df_limpo["CL_FHL"]
+print("=" * 60)
+print("📊 ESTATÍSTICA DE FILHOS")
+print("=" * 60)
+print(f"Média: {filhos.mean():.2f}")
+print(f"Mediana: {filhos.median()}")
+print(f"Moda: {filhos.mode()[0]}")
+print(f"Desvio padrão: {filhos.std():.2f}")
+print(f"Máximo: {filhos.max()}")
+print(f"Mínimo: {filhos.min()}")
+print("\nQuartis e contagem:")
+print(filhos.describe())
 
